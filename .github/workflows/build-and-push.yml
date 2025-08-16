@@ -27,12 +27,22 @@ jobs:
         with:
           workload_identity_provider: projects/1043622436944/locations/global/workloadIdentityPools/github-pool/providers/github-provider
           service_account: github-actions-sa@smartsheet-automation-demo.iam.gserviceaccount.com
+          token_format: access_token
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker to use gcloud as a credential helper
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push Docker image
+      - name: Build Docker image
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
           docker build -t us-central1-docker.pkg.dev/smartsheet-automation-demo/smartsheet-automation-repo/smartsheet-automation:${{ github.sha }} .
+
+      - name: Push Docker image
+        run: |
           docker push us-central1-docker.pkg.dev/smartsheet-automation-demo/smartsheet-automation-repo/smartsheet-automation:${{ github.sha }}
