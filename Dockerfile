@@ -1,8 +1,9 @@
 FROM python:3.10-slim
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    gcc \
+# Use HTTPS mirrors and install gcc
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list && \
+    apt-get update && apt-get install -y --no-install-recommends \
+        gcc \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
