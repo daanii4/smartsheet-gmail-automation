@@ -10,9 +10,10 @@ logger = logging.getLogger(__name__)
 # Initialize Faker for synthetic data
 fake = Faker()
 
-def generate_synthetic_smartsheet_data(num_rows=10):
+def generate_synthetic_smartsheet_data():
     """Generate fake Smartsheet data for demo mode."""
     today = datetime.date.today()
+    num_rows = int(os.getenv("NUM_TASKS"))  # Read from env, default to 10
     data = []
     for _ in range(num_rows):
         due_date = today + datetime.timedelta(days=fake.random_int(min=1, max=7))
