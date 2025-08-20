@@ -16,4 +16,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Run the script
-CMD ["python", "automation.py"]
+CMD ["python", "src/automation.py"]
